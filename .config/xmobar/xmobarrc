@@ -1,0 +1,36 @@
+Config { overrideRedirect = False
+       , font     = "xft:monospace-14"
+       , additionalFonts = ["xft:FontAwesome-14"]
+       , bgColor  = "#3b4252"
+       , fgColor  = "#f8f8f2"
+       , position = TopW L 100
+       , commands = [ Run Weather "KLEX"
+                        [ "--template", "<weather> <tempF>°F"
+                        , "-L", "32"
+                        , "-H", "75"
+                        , "--low"   , "lightblue"
+                        , "--normal", "#f8f8f2"
+                        , "--high"  , "red"
+                        ] 36000
+                    , Run Cpu
+                        [ "-L", "3"
+                        , "-H", "50"
+                        , "--high"  , "red"
+                        , "--normal", "green"
+                        ] 10
+                    --, Run Alsa "default" "Master"
+                    --    [ "--template", "<volumestatus>"
+                    --    , "--suffix"  , "True"
+                    --    , "--"
+                    --    , "--on", ""
+                    --    ]
+                    , Run Memory ["--template", "Mem: <usedratio>%"] 10
+                    --, Run Swap [] 10
+                    , Run Date "%a %Y-%m-%d <fc=#8be9fd>%H:%M</fc>" "date" 10
+                    , Run UnsafeXMonadLog
+                    ]
+       , sepChar  = "%"
+       , alignSep = "}{"
+       , template = " %UnsafeXMonadLog% }{ <box type=Bottom width=2 mb=2 color=#8FBCBB><fc=#8FBCBB>%cpu%</fc></box> | <box type=Bottom width=2 mb=2 color=#A3BE8C><fc=#A3BE8C>%memory%</fc></box> | <box type=Bottom width=2 mb=2 color=#B48EAD><fc=#B48EAD>%KLEX%</fc></box> | <box type=Bottom width=2 mb=2 color=#81A1C1><fc=#81A1C1>%date%</fc></box>         "
+       }
+       --%alsa:default:Master%
