@@ -1,6 +1,6 @@
 #!/bin/sh
 
 while true; do
-    feh --bg-fill --no-fehbg --randomize /home/kmccuddy/Data/Wallpapers
+    feh --bg-fill --no-fehbg --randomize ~/Data/Wallpapers
     sleep 20m
 done
