@@ -40,8 +40,7 @@ keys = [
     Key([mod], "o", lazy.layout.maximize()),
     Key([mod, "shift"], "space", lazy.layout.flip()),
 
-    
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    #Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -49,10 +48,12 @@ keys = [
 
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "d", lazy.spawn("rofi -modi drun -show drun")),
-    Key([mod, "shift"], "Return", lazy.spawn("thunar")),
+   # Key([mod], "d", lazy.spawn("rofi -modi drun -show drun")),
+    #Key([mod, "shift"], "Return", lazy.spawn("thunar")),
 
     Key([mod, "mod1"], "l", lazy.layout.flip_right()),
+    # Maximize window for gaming
+    Key([mod, "shift"], "m", lazy.window.toggle_fullscreen()),
 ]
 
 #### BAR COLORS ####
@@ -72,15 +73,16 @@ def init_colors():
 #### GROUPS ####
 
 def init_group_names():
-    return [("1:", {'layout': 'monadtall'}),
-            ("2:", {'layout': 'monadtall', 'matches':[Match(wm_class=["firefox","vivaldi-stable"])]}),
+    return [("1:", {'layout': 'bsp'}),
+            ("2:", {'layout': 'monadtall', 'matches':[Match(wm_class=["firefox"])]}),
             ("3:", {'layout': 'floating', 'matches':[Match(wm_class=["bitwarden", "steam", "lutris"])]}),
             ("4:", {'layout': 'monadwide', 'matches':[Match(wm_class=["tenacity"])]}),
             ("5:", {'layout': 'monadtall', 'matches':[Match(wm_class=["geary"])]}),
             ("6:", {'layout': 'monadtall'}),
             ("7:", {'layout': 'monadtall'}),
-            ("8:", {'layout': 'monadtall'}),
-            ("9:", {'layout': 'monadtall'})]
+            ("8:", {'layout': 'columns'}),
+            ("9:", {'layout': 'monadtall', 'matches':[Match(wm_class=["Spotify"])]}),
+            ]
 
 
 def init_groups():
@@ -108,8 +110,7 @@ def init_layouts():
     return [layout.MonadTall(**layout_theme),
             layout.MonadWide(**layout_theme),
             layout.Bsp(**layout_theme),
-            layout.Matrix(**layout_theme),
-            layout.RatioTile(**layout_theme),
+            layout.Columns(**layout_theme, num_columns = 4),
             layout.Floating(border_focus="#3B4022")]
 
 def init_widgets_defaults():
@@ -231,7 +232,7 @@ layouts = init_layouts()
 #### Autostart of Startup Apps ####
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/bin/autostart.sh')
+    home = os.path.expanduser('~/.config/qtile/scripts/autostart.sh')
     subprocess.call(['sh', home])
 
 # If things like steam games want to auto-minimize themselves when losing
