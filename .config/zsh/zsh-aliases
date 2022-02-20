@@ -44,7 +44,7 @@ alias l.="exa -a | egrep '^\.'"
 
 # pacman
 alias pacman="sudo pacman --color auto"
-alias update="sudp pacman -Syyu"
+alias update="sudo pacman -Syyu"
 
 # Dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.dots/ --work-tree=$HOME"
