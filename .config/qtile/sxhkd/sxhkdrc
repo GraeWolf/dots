@@ -12,7 +12,7 @@ super + e
 
 #Browser
 super + w
-    vivaldi-stable
+    firefox
 
 #Htop
 super + h
@@ -32,7 +32,7 @@ super + v
 
 #Spotify
 super + m
-    flatpak run com.spotify.client
+    flatpak run com.spotify.Client
 
 #urxvt
 super + Return
