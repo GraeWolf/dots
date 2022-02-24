@@ -6,10 +6,11 @@ import subprocess
 
 from typing import List  # noqa: F401
 from libqtile import bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.config import Match
+from libqtile.command import lazy
 
 mod = "mod4"
 terminal = "alacritty"
@@ -54,6 +55,9 @@ keys = [
     Key([mod, "mod1"], "l", lazy.layout.flip_right()),
     # Maximize window for gaming
     Key([mod, "shift"], "m", lazy.window.toggle_fullscreen()),
+    Key([], "F11", lazy.group['scratchpad'].dropdown_toggle('term')),
+    Key([], "F12", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
+
 ]
 
 #### BAR COLORS ####
@@ -71,30 +75,47 @@ def init_colors():
             ["#bf616a", "#bf616a"]] # 9 red
 
 #### GROUPS ####
+groups = [
+    Group("1:", layout = 'bsp'),
+    Group("2:", layout = 'monadtall', matches = [Match(wm_class=["firefox"])] ),
+    Group("3:", layout = 'floating', matches = [Match(wm_class=["steam", "lutris"])]),
+    Group("4:", layout = 'monadwide', matches = [Match(wm_class=["tenacity"])]),
+    Group("5:", layout = 'monadtall', matches = [Match(wm_class=["geary"])]),
+    Group("6:", layout = 'monadtall'),
+    Group("7:", layout = 'monadtall'),
+    Group("8:", layout = 'columns'),
+    Group("9:", layout = 'monadtall', matches = [Match(wm_class=["Spotify"])]),
+    ScratchPad("scratchpad", [DropDown("term" , "alacritty", opacity=1, on_focus_lost_hide=True),
+                              DropDown("bitwarden", "bitwarden-desktop", matches= [Match(wm_class=["bitwarden"])], on_focus_lost_hide=True) ]),
+]
 
-def init_group_names():
-    return [("1:", {'layout': 'bsp'}),
-            ("2:", {'layout': 'monadtall', 'matches':[Match(wm_class=["firefox"])]}),
-            ("3:", {'layout': 'floating', 'matches':[Match(wm_class=["bitwarden", "steam", "lutris"])]}),
-            ("4:", {'layout': 'monadwide', 'matches':[Match(wm_class=["tenacity"])]}),
-            ("5:", {'layout': 'monadtall', 'matches':[Match(wm_class=["geary"])]}),
-            ("6:", {'layout': 'monadtall'}),
-            ("7:", {'layout': 'monadtall'}),
-            ("8:", {'layout': 'columns'}),
-            ("9:", {'layout': 'monadtall', 'matches':[Match(wm_class=["Spotify"])]}),
-            ]
+for k, group in zip(["1", "2", "3", "4", "5", "6", "7", "8"], groups):
+    keys.append(Key([mod], (k), lazy.group[group.name].toscreen()))
+    keys.append(Key([mod, "shift"], (k), lazy.window.togroup(group.name)))
+
+#def init_group_names():
+#    return [("1:", {'layout': 'bsp'}),
+#            ("2:", {'layout': 'monadtall', 'matches':[Match(wm_class=["firefox"])]}),
+#            ("3:", {'layout': 'floating', 'matches':[Match(wm_class=["bitwarden", "steam", "lutris"])]}),
+#            ("4:", {'layout': 'monadwide', 'matches':[Match(wm_class=["tenacity"])]}),
+#            ("5:", {'layout': 'monadtall', 'matches':[Match(wm_class=["geary"])]}),
+#            ("6:", {'layout': 'monadtall'}),
+#            ("7:", {'layout': 'monadtall'}),
+#            ("8:", {'layout': 'columns'}),
+#            ("9:", {'layout': 'monadtall', 'matches':[Match(wm_class=["Spotify"])]}),
+#            ]
 
 
-def init_groups():
-    return [Group(name, **kwargs) for name, kwargs in group_names]
+#def init_groups():
+#    return [Group(name, **kwargs) for name, kwargs in group_names]
+#
+#if __name__ in ["config", "__main__"]:
+#    group_names = init_group_names()
+#    groups = init_groups()
 
-if __name__ in ["config", "__main__"]:
-    group_names = init_group_names()
-    groups = init_groups()
-
-for i, (name, kwargs) in enumerate(group_names, 1):
-    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
-    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))  # Send current window to another group
+#for i, (name, kwargs) in enumerate(group_names, 1):
+#    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
+#    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))  # Send current window to another group
 
 
 #### LAYOUTS ####
@@ -164,7 +185,12 @@ def init_widgets_list():
                         fontsize = 20,
                         foreground = colors[4],
                         background = colors[0],
-                        format="%A, %B %d - %H:%M"),
+                        format="%A, %B %d  - "),
+                widget.Clock(
+                        fontsize = 20,
+                        foreground = colors[9],
+                        background = colors[0],
+                        format="%H:%M"),
                 widget.LaunchBar(progs=[
                         ('⏾', 'systemctl suspend', 'put computer to sleep')],
                         fontsize = 20,
