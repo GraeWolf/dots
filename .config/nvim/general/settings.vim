@@ -41,7 +41,6 @@ if (has("termguicolors"))
     hi LineNr ctermbg=NONE guibg=NONE
 endif
 
-colorscheme nord
 
 au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 
