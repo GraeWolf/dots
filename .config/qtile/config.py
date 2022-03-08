@@ -5,255 +5,153 @@ import socket
 import subprocess
 
 from typing import List  # noqa: F401
-from libqtile import bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
+
+from libqtile import layout, widget, hook
+from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad, Screen
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
-from libqtile.config import Match
+from libqtile.layout.floating import Floating
 from libqtile.command import lazy
+
+from colors import nord
+from custom_bar import bar1, bar2
+
+
 
 mod = "mod4"
 terminal = "alacritty"
 
+
 keys = [
+    # A list of available commands that can be bound to keys can be found
+    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(),
-        desc="Move window focus to other window"),
-
+    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
-        desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
-        desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(),
-        desc="Move window down"),
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-
-    # Grow or shrink windows in MonadTall
-    Key([mod], "i", lazy.layout.grow()),
-    Key([mod], "m", lazy.layout.shrink()),
+    # Grow windows. If current window is on the edge of screen and direction
+    # will be to screen edge - window would shrink.
+    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    Key([mod], "o", lazy.layout.maximize()),
-    Key([mod, "shift"], "space", lazy.layout.flip()),
-
-    #Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-
+    
+    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-
-    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
+    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-   # Key([mod], "d", lazy.spawn("rofi -modi drun -show drun")),
-    #Key([mod, "shift"], "Return", lazy.spawn("thunar")),
-
-    Key([mod, "mod1"], "l", lazy.layout.flip_right()),
+    #Key([mod], "d", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    
     # Maximize window for gaming
     Key([mod, "shift"], "m", lazy.window.toggle_fullscreen()),
-    Key([], "F11", lazy.group['scratchpad'].dropdown_toggle('term')),
+    
+    # Scratchpad keys
+    Key([mod, "control"], "Return", lazy.group['scratchpad'].dropdown_toggle('term')),
     Key([], "F12", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
-
 ]
 
-#### BAR COLORS ####
-
-def init_colors():
-    return [["#2e3440", "#2e3440"], # 0 panel bg dark grey
-            ["#4c566a", "#4c566a"], # 1 grey
-            ["#d8dee9", "#d8dee9"], # 2 bt-alt light-grey
-            ["#8fbccb", "#8fbccb"], # 3 cyan
-            ["#5e81ac", "#5e81ac"], # 4 blue
-            ["#b48ead", "#b48ead"], # 5 pink
-            ["#a3be8c", "#a3be8c"], # 6 green
-            ["#ebcb8b", "#ebcb8b"], # 7 yellow
-            ["#d08770", "#d08779"], # 8 orange
-            ["#bf616a", "#bf616a"]] # 9 red
-
-#### GROUPS ####
 groups = [
-    Group("1:", layout = 'bsp'),
-    Group("2:", layout = 'monadtall', matches = [Match(wm_class=["firefox"])] ),
-    Group("3:", layout = 'floating', matches = [Match(wm_class=["steam", "lutris"])]),
-    Group("4:", layout = 'monadwide', matches = [Match(wm_class=["tenacity"])]),
-    Group("5:", layout = 'monadtall', matches = [Match(wm_class=["geary"])]),
-    Group("6:", layout = 'monadtall'),
-    Group("7:", layout = 'monadtall'),
-    Group("8:", layout = 'columns'),
-    Group("9:", layout = 'monadtall', matches = [Match(wm_class=["Spotify"])]),
-    ScratchPad("scratchpad", [DropDown("term" , "alacritty", opacity=1, on_focus_lost_hide=True),
-                              DropDown("bitwarden", "bitwarden-desktop", matches= [Match(wm_class=["bitwarden"])], on_focus_lost_hide=True) ]),
+    Group("1", label="", layout = 'bsp'),
+    Group("2", label="", layout = 'monadtall', matches = [Match(wm_class=["firefox"])] ),
+    Group("3", label="", layout = 'floating', matches = [Match(wm_class=["steam", "lutris"])]),
+    Group("4", label="", layout = 'monadwide', matches = [Match(wm_class=["tenacity"])]),
+    Group("5", label="", layout = 'monadtall', matches = [Match(wm_class=["geary"])]),
+    Group("6", label="", layout = 'monadtall'),
+    Group("7", label="", layout = 'monadtall'),
+    Group("8", label="", layout = 'columns', matches = [Match(wm_class=["code - oss"])]),
+    Group("9", label="", layout = 'monadtall', matches = [Match(wm_class=["Spotify"])]),
 ]
 
-for k, group in zip(["1", "2", "3", "4", "5", "6", "7", "8"], groups):
-    keys.append(Key([mod], (k), lazy.group[group.name].toscreen()))
-    keys.append(Key([mod, "shift"], (k), lazy.window.togroup(group.name)))
+for i in groups:
+    keys.extend([
+        # mod1 + letter of group = switch to group
+        Key([mod], i.name, lazy.group[i.name].toscreen(),
+            desc="Switch to group {}".format(i.name)),
 
-#def init_group_names():
-#    return [("1:", {'layout': 'bsp'}),
-#            ("2:", {'layout': 'monadtall', 'matches':[Match(wm_class=["firefox"])]}),
-#            ("3:", {'layout': 'floating', 'matches':[Match(wm_class=["bitwarden", "steam", "lutris"])]}),
-#            ("4:", {'layout': 'monadwide', 'matches':[Match(wm_class=["tenacity"])]}),
-#            ("5:", {'layout': 'monadtall', 'matches':[Match(wm_class=["geary"])]}),
-#            ("6:", {'layout': 'monadtall'}),
-#            ("7:", {'layout': 'monadtall'}),
-#            ("8:", {'layout': 'columns'}),
-#            ("9:", {'layout': 'monadtall', 'matches':[Match(wm_class=["Spotify"])]}),
-#            ]
-
-
-#def init_groups():
-#    return [Group(name, **kwargs) for name, kwargs in group_names]
-#
-#if __name__ in ["config", "__main__"]:
-#    group_names = init_group_names()
-#    groups = init_groups()
-
-#for i, (name, kwargs) in enumerate(group_names, 1):
-#    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
-#    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))  # Send current window to another group
-
+        # Or, use below if you prefer not to switch to that group.
+        # mod1 + shift + letter of group = move focused window to group
+        Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+            desc="move focused window to group {}".format(i.name)),
+    ])
+    
+groups.append(ScratchPad('scratchpad', [
+    DropDown('term', 'alacritty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
+    DropDown('mixer', 'pavucontrol', width=0.4,
+             height=0.6, x=0.3, y=0.1, opacity=1),
+    DropDown('bitwarden', 'bitwarden-desktop',
+             width=0.4, height=0.6, x=0.3, y=0.1, opacity=1),
+]))
 
 #### LAYOUTS ####
 
-def init_layout_theme():
-    return {"border_width": 2,
-            "margin": 6,
-            "border_focus": colors[9],
-            "border_normal": colors[3]
-           }
+layout_theme = {"border_width": 2,
+                "margin": 6,
+                "border_focus": nord['red'],
+                "border_normal": nord['cyan'],
+            }
 
-def init_layouts():
-    return [layout.MonadTall(**layout_theme),
-            layout.MonadWide(**layout_theme),
-            layout.Bsp(**layout_theme),
-            layout.Columns(**layout_theme, num_columns = 4),
-            layout.Floating(border_focus="#3B4022")]
-
-def init_widgets_defaults():
-    return dict(font='sans',
-                fontsize=20,
-                padding=3,
-                background = colors[2])
-
-def init_widgets_list():
-    widgets_list = [
-                widget.GroupBox(
-                        visible_groups=['1:', '2:', '3:', '4:','5:', '6:', '7:', '8:', '9:',],
-                        fontsize = 20,
-                        active = colors[5],
-                        inactive = colors[1],
-                        highlight_method = "border",
-                        this_current_screen_border = colors[6],
-                        this_screen_border = colors [4],
-                        foreground = colors[4],
-                        background = colors[0]),
-                widget.Prompt(),
-                widget.WindowName(
-                        fontsize = 20,
-                        foreground = colors[8],
-                        background = colors[0],
-                        padding = 5),
-                widget.CurrentLayout(
-                        fontsize = 20,
-                        foreground = colors[7],
-                        background = colors[0],
-                        padding =5),
-                widget.TextBox(
-                        fontaize = 20,
-                        text="🕪",
-                        padding = 6,
-                        foreground = colors[6],
-                        background = colors[0]),
-                widget.Volume(
-                        fontsize = 20,
-                        foreground = colors[6],
-                        background = colors[0],),
-                #widget.TextBox(
-                #        text="⟳",
-                #        foreground = colors[2],
-                #        background = colors[0]),
-                #widget.Pacman(
-                #        update_interval = 1800,
-                #        foreground = colors[2],
-                #        background = colors[0]),
-                widget.Clock(
-                        fontsize = 20,
-                        foreground = colors[4],
-                        background = colors[0],
-                        format="%A, %B %d  - "),
-                widget.Clock(
-                        fontsize = 20,
-                        foreground = colors[9],
-                        background = colors[0],
-                        format="%H:%M"),
-                widget.LaunchBar(progs=[
-                        ('⏾', 'systemctl suspend', 'put computer to sleep')],
-                        fontsize = 20,
-                        foreground = colors[9],
-                        background = colors[0],
-                        padding = 5,
-                        #default_icon='/usr/share/icons/Adwaita/24x24/status/night-light-symbolic.symbolic.png'
-                        ),
-                widget.Sep(
-                        linewidth = 0,
-                        padding = 5,
-                        background = colors[0],
-                        ),
-                widget.Systray(
-                        background = colors[0],
-                        padding = 5),
-                    ]
-    return widgets_list
-
-#### SCREENS ####
-
-def init_widgets_screen():
-        widgets_screen = init_widgets_list()
-        return widgets_screen
-
-def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen(), opacity=0.95, size=32))]
+layouts = [
+    layout.MonadTall(**layout_theme),
+    layout.MonadWide(**layout_theme),
+    layout.Bsp(**layout_theme),
+    layout.Columns(**layout_theme, num_columns = 4),
+    layout.Floating(**layout_theme,
+                        float_rules=[
+                            *Floating.default_float_rules,
+                            Match(wm_class="pavucontrol"),
+                            Match(wm_class="bitwarden"),
+                            ])
+]
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
+    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
+widget_defaults = dict(
+    font='TerminessTTF Nerd Font',
+    fontsize=13,
+    padding=10,
+    foreground=nord['bg'],
+)
+
+extension_defaults = widget_defaults.copy()
+
+
+                    
+#### SCREENS ####
+
+
+
+
+screens = [Screen(top=bar1),
+           Screen(top=bar2)]
+            
+            
+            
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(float_rules=[
-    # Run the utility of `xprop` to see the wm class and name of an X client.
-    *layout.Floating.default_float_rules,
-    Match(wm_class='confirmreset'),  # gitk
-    Match(wm_class='makebranch'),  # gitk
-    Match(wm_class='maketag'),  # gitk
-    Match(wm_class='ssh-askpass'),  # ssh-askpass
-    Match(title='branchdialog'),  # gitk
-    Match(title='pinentry'),  # GPG key password entry
-])
-auto_fullscreen = False
+auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
+auto_minimize = True
+wmname = "LG3D"
 
-colors = init_colors()
-screens = init_screens()
-widgets_screen = init_widgets_screen()
-widget_defaults = init_widgets_defaults()
-widgets_list = init_widgets_list()
-layout_theme = init_layout_theme()
-layouts = init_layouts()
 
 #### Autostart of Startup Apps ####
 @hook.subscribe.startup_once
@@ -261,16 +159,5 @@ def autostart():
     home = os.path.expanduser('~/.config/qtile/scripts/autostart.sh')
     subprocess.call(['sh', home])
 
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
-auto_minimize = True
 
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
-wmname = "LG3D"
+
