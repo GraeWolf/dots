@@ -48,7 +48,7 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "shift"], "r", lazy.restart(), desc="Reload the config"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     #Key([mod], "d", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     
@@ -64,7 +64,7 @@ groups = [
     Group("1", label="", layout = 'bsp'),
     Group("2", label="", layout = 'monadtall', matches = [Match(wm_class=["firefox"])] ),
     Group("3", label="", layout = 'floating', matches = [Match(wm_class=["steam", "lutris"])]),
-    Group("4", label="", layout = 'monadwide', matches = [Match(wm_class=["tenacity"])]),
+    Group("4", label="", layout = 'monadwide', matches = [Match(wm_class=["audacity"])]),
     Group("5", label="", layout = 'monadtall', matches = [Match(wm_class=["geary"])]),
     Group("6", label="", layout = 'monadtall'),
     Group("7", label="", layout = 'monadtall'),
@@ -89,7 +89,7 @@ groups.append(ScratchPad('scratchpad', [
     DropDown('mixer', 'pavucontrol', width=0.4,
              height=0.6, x=0.3, y=0.1, opacity=1),
     DropDown('bitwarden', 'bitwarden-desktop',
-             width=0.4, height=0.6, x=0.3, y=0.1, opacity=1),
+             width=0.5, height=0.6, x=0.3, y=0.1, opacity=1),
 ]))
 
 #### LAYOUTS ####
@@ -122,8 +122,8 @@ mouse = [
 
 widget_defaults = dict(
     font='TerminessTTF Nerd Font',
-    fontsize=13,
-    padding=10,
+    fontsize=14,
+    padding=5,
     foreground=nord['bg'],
 )
 
