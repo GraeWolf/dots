@@ -18,5 +18,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'arcticicestudio/nord-vim'
     " Colorizer Plugin
     Plug 'norcalli/nvim-colorizer.lua'
+    " Dracula Theme
+    Plug 'dracula/vim',{'name':'dracula'}
 
 call plug#end()
