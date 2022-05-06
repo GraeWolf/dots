@@ -12,13 +12,13 @@ from libqtile.lazy import lazy
 from libqtile.layout.floating import Floating
 from libqtile.command import lazy
 
-from colors import nord
+from colors import dracula
 from custom_bar import bar1, bar2
 
 
 
 mod = "mod4"
-terminal = "alacritty"
+terminal = "kitty"
 
 
 keys = [
@@ -85,7 +85,7 @@ for i in groups:
     ])
     
 groups.append(ScratchPad('scratchpad', [
-    DropDown('term', 'alacritty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
+    DropDown('term', 'kitty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
     DropDown('mixer', 'pavucontrol', width=0.4,
              height=0.6, x=0.3, y=0.1, opacity=1),
     DropDown('bitwarden', 'bitwarden-desktop',
@@ -96,8 +96,8 @@ groups.append(ScratchPad('scratchpad', [
 
 layout_theme = {"border_width": 2,
                 "margin": 6,
-                "border_focus": nord['red'],
-                "border_normal": nord['cyan'],
+                "border_focus": dracula['red'],
+                "border_normal": dracula['cyan'],
             }
 
 layouts = [
@@ -124,7 +124,7 @@ widget_defaults = dict(
     font='TerminessTTF Nerd Font',
     fontsize=14,
     padding=5,
-    foreground=nord['bg'],
+    foreground=dracula['bg'],
 )
 
 extension_defaults = widget_defaults.copy()
