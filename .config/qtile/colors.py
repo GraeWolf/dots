@@ -14,3 +14,20 @@ nord = {
     'pink': "#bf88bc",
     'grey': "#4c566a",
 }
+
+dracula = {
+    'bg': "#282a36",
+    'fg': "#f8f8f2",
+    'fg_gutter': "#4b5668",
+    'black': "#3b4252",
+    'red': "#ff5555",
+    'green': "#50fa7b",
+    'yellow': "#f1fa8c",
+    'blue': "#6272a4",
+    'magenta': "#bd93f9",
+    'cyan': "#8be9fd",
+    'white': "#e5e9f0",
+    'orange': "#ffb86c",
+    'pink': "#ff79c6",
+    'grey': "#44475a",
+}
