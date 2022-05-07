@@ -36,7 +36,7 @@ super + m
 
 #urxvt
 super + Return
-    alacritty
+    kitty
 
 #Xkill
 super + Escape
