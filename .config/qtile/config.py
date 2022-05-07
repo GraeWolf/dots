@@ -13,7 +13,7 @@ from libqtile.layout.floating import Floating
 from libqtile.command import lazy
 
 from colors import dracula
-from custom_bar import bar1, bar2
+from custom_bar import bar1, bar2, bar3
 
 
 
@@ -137,6 +137,7 @@ extension_defaults = widget_defaults.copy()
 
 
 screens = [Screen(top=bar1),
+           Screen(top=bar3),
            Screen(top=bar2)]
             
             
