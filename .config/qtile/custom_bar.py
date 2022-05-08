@@ -26,7 +26,7 @@ bar1 = bar.Bar([
         padding =5),
     widget.TextBox(
         fontaize = 14,
-        text="🕪",
+        text="",
         padding = 6,
         foreground = dracula['green'],
         background = dracula['bg']),
@@ -79,7 +79,7 @@ bar2 = bar.Bar([
         padding =5),
     widget.TextBox(
         fontaize = 14,
-        text="🕪",
+        text="",
         padding = 6,
         foreground = dracula['green'],
         background = dracula['bg']),
