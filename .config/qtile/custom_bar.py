@@ -105,13 +105,13 @@ bar2 = bar.Bar([
         padding = 5,
         #default_icon='/usr/share/icons/Adwaita/24x24/status/night-light-symbolic.symbolic.png'
         ),
-    #widget.Sep(
-    #    linewidth = 0,
-    #    padding = 5,
-    #    background = dracula['bg'],),
-    #widget.Systray(
-    #    background = dracula['bg'],
-    #    padding = 5),
+    widget.Sep(
+        linewidth = 0,
+        padding = 5,
+        background = dracula['bg'],),
+    widget.Systray(
+        background = dracula['bg'],
+        padding = 5),
     
     ],
 
