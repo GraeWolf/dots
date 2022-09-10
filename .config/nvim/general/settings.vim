@@ -21,8 +21,9 @@ set smarttab                            " Makes tabbing smarter will realize you
 set expandtab                           " Converts tabs to spaces
 set smartindent                         " Makes indenting smart
 set autoindent                          " Good auto indent
-set laststatus=0                        " Always display the status line
+set laststatus=2                        " Always display the status line
 set number                              " Line numbers
+set relativenumber                      " Sets number relative to the line you are on
 set cursorline                          " Enable highlighting of the current line
 set background=dark                     " tell vim what the background color looks like
 set showtabline=2                       " Always show tabs
@@ -33,7 +34,12 @@ set updatetime=300                      " Faster completion
 set timeoutlen=500                      " By default timeoutlen is 1000 ms
 set formatoptions-=cro                  " Stop newline continution of comments
 set clipboard=unnamedplus               " Copy paste between vim and everything else
+set scrolloff=8
+set colorcolumn=80
+set signcolumn=yes
 "set autochdir                           " Your working directory will always be the same as your working directory
+
+highlight ColorColumn ctermbg=1         " Set the color on the color on the columnt at 80
 
 " checks if your terminal has 24-bit color support
 if (has("termguicolors"))
