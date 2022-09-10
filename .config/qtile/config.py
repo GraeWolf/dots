@@ -18,7 +18,7 @@ from custom_bar import bar1, bar2, bar3
 
 
 mod = "mod4"
-terminal = "kitty"
+terminal = "alacritty"
 
 
 keys = [
@@ -137,7 +137,6 @@ extension_defaults = widget_defaults.copy()
 
 
 screens = [Screen(top=bar1),
-           Screen(top=bar3),
            Screen(top=bar2)]
             
             
