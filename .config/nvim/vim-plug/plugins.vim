@@ -8,6 +8,14 @@ endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 
+
+    " Make your Vim/Neovim as smart as VSCode
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " Fzf is a general-purpose command-line fuzzy finder
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    " Python code formatter
+    Plug 'ambv/black'
     " Better Syntax Support
     Plug 'sheerun/vim-polyglot'
     " File Explorer
