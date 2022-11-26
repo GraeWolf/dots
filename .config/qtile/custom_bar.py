@@ -19,6 +19,28 @@ bar1 = bar.Bar([
         foreground = dracula['orange'],
         background = dracula['bg'],
         padding = 5),
+    widget.Battery(
+        background = dracula['bg'],
+        foreground = dracula['magenta'],
+        fontsize = 14,
+        format = '{char}{percent:2.0%}',
+        low_percentage = 0.1,
+        low_foreground = dracula['red']),
+    widget.NvidiaSensors(
+        background = dracula['bg'],
+        foreground = dracula['green'],
+        fontsize = 14,
+        threshold = 80,
+        foreground_alert = dracula['red'],
+        update_interval = 2,),
+    widget.ThermalSensor(
+        background = dracula['bg'],
+        foreground = dracula['pink'],
+        #tag_sensor = 'k10temp-pci-00c3',
+        #format = '{CPU}: {temp: .1f}',
+        threshold = 60.0,
+        foregrount_alert = dracula['red'],
+    update_interval = 2),
     widget.CurrentLayout(
         fontsize = 14,
         foreground = dracula['yellow'],
@@ -44,10 +66,13 @@ bar1 = bar.Bar([
         foreground = dracula['red'],
         background = dracula['bg'],
         format="%H:%M"),
-    #widget.Sep(
-    #    linewidth = 0,
-    #    padding = 5,
-    #    background = dracula['bg'],),
+    widget.Sep(
+        linewidth = 0,
+        padding = 5,
+        background = dracula['bg'],),
+    widget.Systray(
+       background = dracula['bg'],
+       padding = 5),
     
     ],
 
