@@ -46,8 +46,9 @@ alias ls="exa -al --color=always --group-directories-first"
 alias l.="exa -a | egrep '^\.'"
 
 # pacman
-alias pacman="sudo pacman --color auto"
+alias pin="sudo pacman --color auto -S"
 alias update="sudo pacman -Syyu"
+alias pss="pacman -Ss"
 
 # Dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.dots/ --work-tree=$HOME"
