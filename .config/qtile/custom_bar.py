@@ -33,29 +33,45 @@ bar1 = bar.Bar([
         threshold = 80,
         foreground_alert = dracula['red'],
         update_interval = 2,),
-    widget.ThermalSensor(
-        background = dracula['bg'],
-        foreground = dracula['pink'],
-        #tag_sensor = 'k10temp-pci-00c3',
-        #format = '{CPU}: {temp: .1f}',
-        threshold = 60.0,
-        foregrount_alert = dracula['red'],
-    update_interval = 2),
+    #widget.ThermalSensor(
+    #    background = dracula['bg'],
+    #    foreground = dracula['pink'],
+    #    tag_sensor = 'k10temp-pci-00c3',
+    #    #format = '{CPU}: {temp: .1f}',
+    #    threshold = 60.0,
+    #    foregrount_alert = dracula['red'],
+    #    update_interval = 2),
+    widget.ThermalZone(
+        background= dracula['bg'],
+        fgcolor_normal = dracula['pink'],
+        fgcolor_crit = dracula['red'],
+        fgcolor_high = dracula['magenta'],
+        zone = '/sys/class/thermal/thermal_zone0/temp',
+        update_interval = 2.0,
+        high = 75,
+        crit = 90,
+        format_crit = '{temp}°C CRIT!'
+    ),
     widget.CurrentLayout(
         fontsize = 14,
         foreground = dracula['yellow'],
         background = dracula['bg'],
         padding =5),
-    widget.TextBox(
-        fontaize = 14,
-        text="",
-        padding = 6,
-        foreground = dracula['green'],
-        background = dracula['bg']),
-    widget.Volume(
-        fontsize = 14,
-        foreground = dracula['green'],
-        background = dracula['bg'],),
+    #widget.TextBox(
+    #    fontaize = 14,
+    #    text="",
+    #    padding = 6,
+    #    foreground = dracula['green'],
+    #    background = dracula['bg']),
+    #widget.Volume(
+    #    fontsize = 14,
+    #    foreground = dracula['green'],
+    #    background = dracula['bg'],
+    #    volume_app = 'pamixer',
+    #    volume_down_command = 'pamixer --decrease 5',
+    #    volume_up_command = 'pamixer --increase 5',
+    #),
+
     widget.Clock(
         fontsize = 14,
         foreground = dracula['blue'],
@@ -66,6 +82,14 @@ bar1 = bar.Bar([
         foreground = dracula['red'],
         background = dracula['bg'],
         format="%H:%M"),
+    widget.LaunchBar(progs=[
+        ('⏾', 'systemctl suspend', 'put computer to sleep')],
+        fontsize = 14,
+        foreground = dracula['white'],
+        background = dracula['bg'],
+        padding = 5,
+        #default_icon='/usr/share/icons/Adwaita/24x24/status/night-light-symbolic.symbolic.png'
+        ),
     widget.Sep(
         linewidth = 0,
         padding = 5,
@@ -102,16 +126,16 @@ bar2 = bar.Bar([
         foreground = dracula['yellow'],
         background = dracula['bg'],
         padding =5),
-    widget.TextBox(
-        fontaize = 14,
-        text="",
-        padding = 6,
-        foreground = dracula['green'],
-        background = dracula['bg']),
-    widget.Volume(
-        fontsize = 14,
-        foreground = dracula['green'],
-        background = dracula['bg'],),
+    #widget.TextBox(
+    #    fontaize = 14,
+    #    text="",
+    #    padding = 6,
+    #    foreground = dracula['green'],
+    #    background = dracula['bg']),
+    #widget.Volume(
+    #    fontsize = 14,
+    #    foreground = dracula['green'],
+    #    background = dracula['bg'],),
     widget.Clock(
         fontsize = 14,
         foreground = dracula['blue'],
@@ -134,9 +158,9 @@ bar2 = bar.Bar([
         linewidth = 0,
         padding = 5,
         background = dracula['bg'],),
-    widget.Systray(
-        background = dracula['bg'],
-        padding = 5),
+    #widget.Systray(
+    #    background = dracula['bg'],
+    #    padding = 5),
     
     ],
 
