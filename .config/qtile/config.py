@@ -18,7 +18,7 @@ from custom_bar import bar1, bar2, bar3
 
 
 mod = "mod4"
-terminal = "alacritty"
+terminal = "wezterm"
 
 
 keys = [
@@ -66,7 +66,7 @@ groups = [
     Group("3", label="", layout = 'floating', matches = [Match(wm_class=["steam", "lutris"])]),
     Group("4", label="", layout = 'monadwide', matches = [Match(wm_class=["audacity"])]),
     Group("5", label="", layout = 'monadtall', matches = [Match(wm_class=["geary"])]),
-    Group("6", label="", layout = 'monadtall'),
+    Group("6", label="", layout = 'monadtall'),
     Group("7", label="", layout = 'monadtall'),
     Group("8", label="", layout = 'columns', matches = [Match(wm_class=["code - oss"])]),
     Group("9", label="", layout = 'monadtall', matches = [Match(wm_class=["Spotify"])]),
@@ -85,7 +85,7 @@ for i in groups:
     ])
     
 groups.append(ScratchPad('scratchpad', [
-    DropDown('term', 'kitty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
+    DropDown('term', 'alacritty', width=0.6, height=0.5, x=0.2, y=0.1, opacity=1),
     DropDown('mixer', 'pavucontrol', width=0.4,
              height=0.6, x=0.3, y=0.1, opacity=1),
     DropDown('bitwarden', 'bitwarden-desktop',
