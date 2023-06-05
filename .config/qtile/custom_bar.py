@@ -1,11 +1,11 @@
 from libqtile import bar, widget
 
 from colors import dracula
-
+gb_font = 18
 
 bar1 = bar.Bar([
     widget.GroupBox(
-        fontsize = 14,
+        fontsize = gb_font,
         active = dracula['pink'],
         inactive = dracula['grey'],
         highlight_method = "border",
@@ -15,21 +15,21 @@ bar1 = bar.Bar([
         background = dracula['bg']),
     widget.Prompt(),
     widget.WindowName(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['orange'],
         background = dracula['bg'],
         padding = 5),
     widget.Battery(
         background = dracula['bg'],
         foreground = dracula['magenta'],
-        fontsize = 14,
+        fontsize = gb_font,
         format = '{char}{percent:2.0%}',
         low_percentage = 0.1,
         low_foreground = dracula['red']),
     widget.NvidiaSensors(
         background = dracula['bg'],
         foreground = dracula['green'],
-        fontsize = 14,
+        fontsize = gb_font,
         threshold = 80,
         foreground_alert = dracula['red'],
         update_interval = 2,),
@@ -42,6 +42,7 @@ bar1 = bar.Bar([
     #    foregrount_alert = dracula['red'],
     #    update_interval = 2),
     widget.ThermalZone(
+        fontsize = gb_font,
         background= dracula['bg'],
         fgcolor_normal = dracula['pink'],
         fgcolor_crit = dracula['red'],
@@ -53,18 +54,18 @@ bar1 = bar.Bar([
         format_crit = '{temp}°C CRIT!'
     ),
     widget.CurrentLayout(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['yellow'],
         background = dracula['bg'],
         padding =5),
     #widget.TextBox(
-    #    fontaize = 14,
+    #    fontaize = gb_font,
     #    text="",
     #    padding = 6,
     #    foreground = dracula['green'],
     #    background = dracula['bg']),
     #widget.Volume(
-    #    fontsize = 14,
+    #    fontsize = gb_font,
     #    foreground = dracula['green'],
     #    background = dracula['bg'],
     #    volume_app = 'pamixer',
@@ -73,18 +74,18 @@ bar1 = bar.Bar([
     #),
 
     widget.Clock(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['blue'],
         background = dracula['bg'],
         format="%A, %B %d  - "),
     widget.Clock(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['red'],
         background = dracula['bg'],
         format="%H:%M"),
     widget.LaunchBar(progs=[
         ('⏾', 'systemctl suspend', 'put computer to sleep')],
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['white'],
         background = dracula['bg'],
         padding = 5,
@@ -101,13 +102,13 @@ bar1 = bar.Bar([
     ],
 
     margin=[10, 10, 5, 10],
-    opacity = 1,
-    size = 25
+    opacity = 0.8,
+    size = 35
 )
 
 bar2 = bar.Bar([
     widget.GroupBox(
-        fontsize = 14,
+        fontsize = gb_font,
         active = dracula['pink'],
         inactive = dracula['grey'],
         highlight_method = "border",
@@ -117,38 +118,38 @@ bar2 = bar.Bar([
         background = dracula['bg']),
     widget.Prompt(),
     widget.WindowName(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['orange'],
         background = dracula['bg'],
         padding = 5),
     widget.CurrentLayout(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['yellow'],
         background = dracula['bg'],
         padding =5),
     #widget.TextBox(
-    #    fontaize = 14,
+    #    fontaize = gb_font,
     #    text="",
     #    padding = 6,
     #    foreground = dracula['green'],
     #    background = dracula['bg']),
     #widget.Volume(
-    #    fontsize = 14,
+    #    fontsize = gb_font,
     #    foreground = dracula['green'],
     #    background = dracula['bg'],),
     widget.Clock(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['blue'],
         background = dracula['bg'],
         format="%A, %B %d  - "),
     widget.Clock(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['red'],
         background = dracula['bg'],
         format="%H:%M"),
     widget.LaunchBar(progs=[
         ('⏾', 'systemctl suspend', 'put computer to sleep')],
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['white'],
         background = dracula['bg'],
         padding = 5,
@@ -171,7 +172,7 @@ bar2 = bar.Bar([
 
 bar3 = bar.Bar([
     widget.GroupBox(
-        fontsize = 14,
+        fontsize = gb_font,
         active = dracula['pink'],
         inactive = dracula['grey'],
         highlight_method = "border",
@@ -181,17 +182,17 @@ bar3 = bar.Bar([
         background = dracula['bg']),
     widget.Prompt(),
     widget.WindowName(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['orange'],
         background = dracula['bg'],
         padding = 5),
     widget.CurrentLayout(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['yellow'],
         background = dracula['bg'],
         padding =5),
     widget.Clock(
-        fontsize = 14,
+        fontsize = gb_font,
         foreground = dracula['red'],
         background = dracula['bg'],
         format="%H:%M"),
