@@ -8,8 +8,11 @@ bar1 = bar.Bar([
         fontsize = gb_font,
         active = dracula['pink'],
         inactive = dracula['grey'],
-        highlight_method = "border",
+        highlight_method = "line",
+        highlight_color = dracula['bg'],
         this_current_screen_border = dracula['green'],
+        other_current_screen_border = dracula['orange'],
+        other_screen_border = dracula['orange'],
         this_screen_border = dracula['blue'],
         foreground = dracula['blue'],
         background = dracula['bg']),
@@ -84,7 +87,7 @@ bar1 = bar.Bar([
         background = dracula['bg'],
         format="%H:%M"),
     widget.LaunchBar(progs=[
-        ('⏾', 'systemctl suspend', 'put computer to sleep')],
+        ('⏾', 'sleeplock', 'put computer to sleep')],
         fontsize = gb_font,
         foreground = dracula['white'],
         background = dracula['bg'],
@@ -98,7 +101,11 @@ bar1 = bar.Bar([
     widget.Systray(
        background = dracula['bg'],
        padding = 5),
-    
+    widget.Sep(
+        linewidth = 0,
+        padding = 5,
+        background = dracula['bg'],),
+
     ],
 
     margin=[10, 10, 5, 10],
@@ -111,8 +118,11 @@ bar2 = bar.Bar([
         fontsize = gb_font,
         active = dracula['pink'],
         inactive = dracula['grey'],
-        highlight_method = "border",
+        highlight_method = "line",
+        highlight_color = dracula['bg'],
         this_current_screen_border = dracula['green'],
+        other_current_screen_border = dracula['orange'],
+        other_screen_border = dracula['orange'],
         this_screen_border = dracula['blue'],
         foreground = dracula['blue'],
         background = dracula['bg']),
@@ -148,7 +158,7 @@ bar2 = bar.Bar([
         background = dracula['bg'],
         format="%H:%M"),
     widget.LaunchBar(progs=[
-        ('⏾', 'systemctl suspend', 'put computer to sleep')],
+        ('⏾', 'sleeplock', 'put computer to sleep')],
         fontsize = gb_font,
         foreground = dracula['white'],
         background = dracula['bg'],
@@ -167,7 +177,7 @@ bar2 = bar.Bar([
 
     margin=[10, 10, 5, 10],
     opacity = 1,
-    size = 25
+    size = 35
 )
 
 bar3 = bar.Bar([
