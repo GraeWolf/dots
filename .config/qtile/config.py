@@ -14,6 +14,7 @@ from libqtile.command import lazy
 
 from colors import dracula
 from custom_bar import bar1, bar2, bar3
+from Xlib import display as xdisplay
 
 
 
@@ -30,6 +31,7 @@ keys = [
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -61,15 +63,15 @@ keys = [
 ]
 
 groups = [
-    Group("1", label="", layout = 'bsp'),
-    Group("2", label="", layout = 'monadtall', matches = [Match(wm_class=["firefox"])] ),
-    Group("3", label="", layout = 'floating', matches = [Match(wm_class=["steam", "lutris"])]),
-    Group("4", label="", layout = 'monadwide', matches = [Match(wm_class=["audacity"])]),
-    Group("5", label="", layout = 'monadtall', matches = [Match(wm_class=["geary"])]),
-    Group("6", label="", layout = 'monadtall'),
-    Group("7", label="", layout = 'monadtall'),
-    Group("8", label="", layout = 'columns', matches = [Match(wm_class=["code - oss"])]),
-    Group("9", label="", layout = 'monadtall', matches = [Match(wm_class=["Spotify"])]),
+    Group("1", label=" ", layout = 'bsp'),
+    Group("2", label=" ", layout = 'monadtall', matches = [Match(wm_class=["firefox"])] ),
+    Group("3", label=" ", layout = 'floating', matches = [Match(wm_class=["steam", "lutris"])]),
+    Group("4", label=" ", layout = 'monadwide', matches = [Match(wm_class=["audacity"])]),
+    Group("5", label=" ", layout = 'monadtall', matches = [Match(wm_class=["geary"])]),
+    Group("6", label=" ", layout = 'monadtall'),
+    Group("7", label=" ", layout = 'monadtall'),
+    Group("8", label=" ", layout = 'columns', matches = [Match(wm_class=["code - oss"])]),
+    Group("9", label=" ", layout = 'monadtall', matches = [Match(wm_class=["Spotify"])]),
 ]
 
 for i in groups:
@@ -133,12 +135,38 @@ extension_defaults = widget_defaults.copy()
                     
 #### SCREENS ####
 
+def get_num_monitors():
+    num_monitors = 0
+    try:
+        display = xdisplay.Display()
+        screen = display.screen()
+        print(screen)
+        resources = screen.root.xrandr_get_screen_resources()
+        print(resources)
+
+        for output in resources.outputs:
+            monitor = display.xrandr_get_output_info(output, resources.config_timestamp)
+            preferred = False
+            if hasattr(monitor, "preferred"):
+                preferred = monitor.preferred
+            elif hasattr(monitor, "num_preferred"):
+                preferred = monitor.num_preferred
+            if preferred:
+                num_monitors += 1
+    except Exception as e:
+        # always setup at least one monitor
+        return 1
+    else:
+        return num_monitors
+
+num_monitors = get_num_monitors()
 
 
+screens = [Screen(top=bar1)]
 
-screens = [Screen(top=bar1),
-           Screen(top=bar2)]
-            
+if num_monitors > 1:
+    for m in range(num_monitors - 1):
+        screens.append(Screen(top=bar2))
             
             
 dgroups_key_binder = None
