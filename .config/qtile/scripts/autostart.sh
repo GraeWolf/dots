@@ -9,3 +9,4 @@ volumeicon &
 sxhkd -c ~/.config/qtile/sxhkd/sxhkdrc &
 #megasync &
 dropbox start &
+pipewire &
