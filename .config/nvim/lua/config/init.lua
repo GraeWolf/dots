@@ -20,7 +20,7 @@ local opts = {
 		lazy = true,
 	},
 	install = {
-		colorscheme = { "kanagawa" }
+		colorscheme = { "gruvbox" }
 	},
 	rtp ={
 		disabled_plugins = {

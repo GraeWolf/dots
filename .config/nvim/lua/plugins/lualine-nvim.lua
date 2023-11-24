@@ -1,11 +1,11 @@
 local config = function()
-    local theme = require("lualine.themes.tokyonight")
+    local theme = require("lualine.themes.gruvbox_light")
     theme.normal.c.bg = nil
 
     require('lualine').setup {
         options = {
             theme = theme,
-            globalstatus = ture,
+            globalstatus = true,
         },
         sections = {
             lualine_a = {
