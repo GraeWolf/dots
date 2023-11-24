@@ -23,11 +23,11 @@ draw_bold_text_with_bright_colors: true
 
 font:
   normal:
-    family: JetBrains Mono
+    family: Victor Mono
   bold:
-    family: JetBrains Mono
+    family: Victor Mono
   italic:
-    family: JetBrains Mono
+    family: Victor Mono
   size: 8.0
   offset:
     x: 0
