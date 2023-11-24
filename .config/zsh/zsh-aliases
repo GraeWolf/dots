@@ -56,3 +56,6 @@ alias config="/usr/bin/git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 # C++ Compilation
 alias compile="g++ -std=c++20 -ggdb -Wall -Weffc++ -Wextra -Wsign-conversion -Werror"
 alias compray="g++ -std=c++20 -lraylib -ggdb -Wall -Weffc++ -Wextra -Wsign-conversion -Werror"
+
+# Second Brain shortcut
+alias sb="cd ~/Documents/SecondBrain && nvim"
