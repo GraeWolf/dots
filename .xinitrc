@@ -27,6 +27,11 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
+# Screen locking
+xset s on
+xset s 600
+xss-lock ~/.local/bin/securelock lock &
+
 # unlock the keyring
 eval "$(/usr/bin/gnome-keyring-daemon --start --components=gpg,ssh,pkcs11,secrets)"
 export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
@@ -43,9 +48,11 @@ fi
 
 
 # Launch apps and services
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+#/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+/usr/lib/polkit-1/polkit-agent-helper-1 &
 udiskie -t &
 numlockx &
+~/.local/bin/securelock &
 
 # Launce WM or DE
 
