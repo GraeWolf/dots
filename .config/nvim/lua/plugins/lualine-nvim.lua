@@ -1,5 +1,5 @@
 local config = function()
-    local theme = require("lualine.themes.gruvbox_light")
+    local theme = require("lualine.themes.palenight")
     theme.normal.c.bg = nil
 
     require('lualine').setup {
