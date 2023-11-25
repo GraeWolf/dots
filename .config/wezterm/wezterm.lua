@@ -15,6 +15,7 @@ end
 -- For example, changing the color scheme:
 config.color_scheme = "Kanagawa (Gogh)"
 config.font = wezterm.font("Victor Mono")
+config.font_size = 14.0
 
 config.enable_tab_bar = false
 config.window_background_opacity = 0.90
