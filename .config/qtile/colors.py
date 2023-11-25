@@ -31,3 +31,20 @@ dracula = {
     'pink': "#ff79c6",
     'grey': "#44475a",
 }
+
+kanagawa = {
+    'bg': "#363646",
+    'fg': "#DCD7BA",
+    'fg_gutter': "#54546d",
+    'black': "#16161D",
+    'red': "#C34043",
+    'green': "#76946A",
+    'yellow': "#C0A36E",
+    'blue': "#7E9CD8",
+    'magenta': "#957FB8",
+    'cyan': "#6A9589",
+    'white': "#C8C093",
+    'orange': "#FFA066",
+    'pink': "#FF5D62",
+    'grey': "#727169",
+}
