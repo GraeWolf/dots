@@ -1,21 +1,17 @@
 #### Graewolf Custom Qtile Config ####
 import os
-import re
-import socket
 import subprocess
 
 from typing import List  # noqa: F401
 
-from libqtile import layout, widget, hook
+from libqtile import layout, hook
 from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad, Screen
 from libqtile.lazy import lazy
-from libqtile.layout.floating import Floating
-from libqtile.command import lazy
+from libqtile.layout import Floating, Bsp, MonadTall, MonadWide, Columns
 
-from colors import dracula
-from custom_bar import bar1, bar2, bar3
+from colors import kanagawa
+from custom_bar import bar1, bar2
 from Xlib import display as xdisplay
-
 
 
 mod = "mod4"
@@ -26,52 +22,160 @@ keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "h",
+        lazy.layout.left(),
+        desc="Move focus to left"
+        ),
+    Key([mod], "l",
+        lazy.layout.right(),
+        desc="Move focus to right"
+        ),
+    Key([mod], "j",
+        lazy.layout.down(),
+        desc="Move focus down"
+        ),
+    Key([mod], "k",
+        lazy.layout.up(),
+        desc="Move focus up"
+        ),
+    Key([mod], "space",
+        lazy.layout.next(),
+        desc="Move window focus to other window"
+        ),
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod, "shift"], "h",
+        lazy.layout.shuffle_left(),
+        desc="Move window to the left"
+        ),
+
+    Key([mod, "shift"], "l",
+        lazy.layout.shuffle_right(),
+        desc="Move window to the right"
+        ),
+
+    Key([mod, "shift"], "j",
+        lazy.layout.shuffle_down(),
+        desc="Move window down"
+        ),
+
+    Key([mod, "shift"], "k",
+        lazy.layout.shuffle_up(),
+        desc="Move window up"
+        ),
+
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod, "control"], "h",
+        lazy.layout.grow_left(),
+        desc="Grow window to the left"
+        ),
+
+    Key([mod, "control"], "l",
+        lazy.layout.grow_right(),
+        desc="Grow window to the right"
+        ),
+
+    Key([mod, "control"], "j",
+        lazy.layout.grow_down(),
+        desc="Grow window down"
+        ),
+
+    Key([mod, "control"], "k",
+        lazy.layout.grow_up(),
+        desc="Grow window up"
+        ),
+
+    Key([mod], "n",
+        lazy.layout.normalize(),
+        desc="Reset all window sizes"
+        ),
+
+    Key([mod], "Return",
+        lazy.spawn(terminal),
+        desc="Launch terminal"
+        ),
+
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "shift"], "r", lazy.restart(), desc="Reload the config"),
-    Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    #Key([mod], "d", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    
+    Key([mod], "Tab",
+        lazy.next_layout(),
+        desc="Toggle between layouts"
+        ),
+
+    Key([mod], "q",
+        lazy.window.kill(),
+        desc="Kill focused window"
+        ),
+
+    Key([mod, "shift"], "r",
+        lazy.restart(),
+        desc="Reload the config"
+        ),
+
+    Key([mod, "shift"], "q",
+        lazy.shutdown(),
+        desc="Shutdown Qtile"
+        ),
+    # Key([mod], "d", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
     # Maximize window for gaming
-    Key([mod, "shift"], "m", lazy.window.toggle_fullscreen()),
-    
+    Key([mod, "shift"], "m",
+        lazy.window.toggle_fullscreen()
+        ),
+
     # Scratchpad keys
-    Key([mod, "control"], "Return", lazy.group['scratchpad'].dropdown_toggle('term')),
-    Key([], "F12", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
+    Key([mod, "control"], "Return",
+        lazy.group['scratchpad'].dropdown_toggle('term')
+        ),
+    Key([], "F12",
+        lazy.group['scratchpad'].dropdown_toggle('bitwarden')
+        ),
 ]
 
 groups = [
-    Group("1", label=" ", layout = 'bsp'),
-    Group("2", label=" ", layout = 'monadtall', matches = [Match(wm_class=["firefox"])] ),
-    Group("3", label=" ", layout = 'floating', matches = [Match(wm_class=["steam", "lutris"])]),
-    Group("4", label=" ", layout = 'monadwide', matches = [Match(wm_class=["audacity"])]),
-    Group("5", label=" ", layout = 'monadtall', matches = [Match(wm_class=["geary"])]),
-    Group("6", label=" ", layout = 'monadtall'),
-    Group("7", label=" ", layout = 'monadtall'),
-    Group("8", label=" ", layout = 'columns', matches = [Match(wm_class=["code - oss"])]),
-    Group("9", label=" ", layout = 'monadtall', matches = [Match(wm_class=["Spotify"])]),
+    Group("1",
+          label=" ",
+          layout='bsp'
+          ),
+    Group("2",
+          label=" ",
+          layout='monadtall',
+          matches=[Match(wm_class=["firefox"])]
+          ),
+    Group("3",
+          label=" ",
+          layout='floating',
+          matches=[Match(wm_class=["steam", "lutris"])]
+          ),
+    Group("4",
+          label=" ",
+          layout='monadwide',
+          matches=[Match(wm_class=["audacity"])]
+          ),
+    Group("5",
+          label=" ",
+          layout='monadtall',
+          matches=[Match(wm_class=["geary"])]
+          ),
+    Group("6",
+          label=" ",
+          layout='monadtall'
+          ),
+    Group("7",
+          label=" ",
+          layout='monadtall'
+          ),
+    Group("8",
+          label=" ",
+          layout='columns',
+          matches=[Match(wm_class=["code - oss"])]
+          ),
+    Group("9",
+          label=" ",
+          layout='monadtall',
+          matches=[Match(wm_class=["Spotify"])]
+          ),
 ]
 
 for i in groups:
@@ -85,55 +189,80 @@ for i in groups:
         Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
             desc="move focused window to group {}".format(i.name)),
     ])
-    
+
 groups.append(ScratchPad('scratchpad', [
-    DropDown('term', 'alacritty', width=0.6, height=0.5, x=0.2, y=0.1, opacity=1),
-    DropDown('mixer', 'pavucontrol', width=0.4,
-             height=0.6, x=0.3, y=0.1, opacity=1),
-    DropDown('bitwarden', 'bitwarden-desktop',
-             width=0.5, height=0.6, x=0.3, y=0.1, opacity=1),
+    DropDown('term',
+             'alacritty',
+             width=0.6,
+             height=0.5,
+             x=0.2,
+             y=0.1,
+             opacity=1
+             ),
+    DropDown('mixer',
+             'pavucontrol',
+             width=0.4,
+             height=0.6,
+             x=0.3, y=0.1,
+             opacity=1
+             ),
+    DropDown('bitwarden',
+             'bitwarden-desktop',
+             width=0.5,
+             height=0.6,
+             x=0.3,
+             y=0.1,
+             opacity=1
+             ),
 ]))
 
 #### LAYOUTS ####
 
 layout_theme = {"border_width": 2,
                 "margin": 6,
-                "border_focus": dracula['red'],
-                "border_normal": dracula['cyan'],
-            }
+                "border_focus": kanagawa['red'],
+                "border_normal": kanagawa['cyan'],
+                }
 
 layouts = [
     layout.MonadTall(**layout_theme),
     layout.MonadWide(**layout_theme),
     layout.Bsp(**layout_theme),
-    layout.Columns(**layout_theme, num_columns = 4),
+    layout.Columns(**layout_theme, num_columns=4),
     layout.Floating(**layout_theme,
-                        float_rules=[
-                            *Floating.default_float_rules,
-                            Match(wm_class="pavucontrol"),
-                            Match(wm_class="bitwarden"),
-                            ])
+                    float_rules=[
+                        *Floating.default_float_rules,
+                        Match(wm_class="pavucontrol"),
+                        Match(wm_class="bitwarden"),
+                        ])
 ]
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
+    Drag([mod], "Button1",
+         lazy.window.set_position_floating(),
+         start=lazy.window.get_position()
+         ),
+    Drag([mod], "Button3",
+         lazy.window.set_size_floating(),
+         start=lazy.window.get_size()
+         ),
+    Click([mod], "Button2",
+          lazy.window.bring_to_front()
+          ),
 ]
 
-widget_defaults = dict(
-    font='TerminessTTF Nerd Font',
-    fontsize=14,
-    padding=5,
-    foreground=dracula['bg'],
-)
+# widget_defaults = dict(
+#    font='TerminessTTF Nerd Font',
+#    fontsize=14,
+#    padding=5,
+#    background=kanagawa['black'],
+# )
 
-extension_defaults = widget_defaults.copy()
+# extension_defaults = widget_defaults.copy()
 
-
-                    
 #### SCREENS ####
+
 
 def get_num_monitors():
     num_monitors = 0
@@ -159,6 +288,7 @@ def get_num_monitors():
     else:
         return num_monitors
 
+
 num_monitors = get_num_monitors()
 
 
@@ -167,8 +297,8 @@ screens = [Screen(top=bar1)]
 if num_monitors > 1:
     for m in range(num_monitors - 1):
         screens.append(Screen(top=bar2))
-            
-            
+
+
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
@@ -186,6 +316,3 @@ wmname = "LG3D"
 def autostart():
     home = os.path.expanduser('~/.config/qtile/scripts/autostart.sh')
     subprocess.call(['sh', home])
-
-
-
