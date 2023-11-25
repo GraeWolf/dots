@@ -13,7 +13,7 @@ end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.color_scheme = "Dracula"
+config.color_scheme = "Kanagawa (Gogh)"
 config.font = wezterm.font("Victor Mono")
 
 config.enable_tab_bar = false
