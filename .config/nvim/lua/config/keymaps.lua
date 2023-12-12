@@ -2,7 +2,7 @@ local keymap = vim.keymap
 
 -- Directory Navigation
 keymap.set("n", "<leader>m", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
-keymap.set("n", "<leader>f", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
+keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 
 -- Panel Navigation
 keymap.set("n", "<C-h>", "<C-w>h", opts) -- Navigate Left
@@ -23,3 +23,5 @@ keymap.set("v", ">", ">gv")
 vim.api.nvim_set_keymap("n", "<C-/>", "gcc", { noremap = false })
 vim.api.nvim_set_keymap("v", "<C-/>", "gcc", { noremap = false })
 
+-- Trouble Toggle
+keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)

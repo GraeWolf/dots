@@ -1,11 +1,15 @@
 local opt = vim.opt
 
+-- leader
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 -- Tab / Indentation
 opt.tabstop = 4
 opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
-opt.smartindent = ture
+opt.smartindent = true
 opt.wrap = false
 
 -- Search
