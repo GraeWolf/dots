@@ -56,8 +56,8 @@ numlockx &
 
 # Launce WM or DE
 
-qtile start
+dbus-launch qtile start
 #dbus-launch leftwm
-#startxfce4
+#dbus-launch startxfce4
 #awesome
 #xmonad
