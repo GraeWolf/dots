@@ -1,12 +1,10 @@
-local on_attach = require("util.lsp").on_attach
-local diagnostic_signs = require("util.lsp").diagnostic_signs
-
+local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = ""  }
 local config = function()
 	require("neoconf").setup({})
 	local cmp_nvim_lsp = require("cmp_nvim_lsp")
 	local lspconfig = require("lspconfig")
 
-	for type, icon in pairs(diagnostic_signs) do
+	for type, icon in pairs(signs) do
 		local hl = "DiagnosticSign" .. type
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 	end
@@ -16,7 +14,6 @@ local config = function()
 	-- lua
 	lspconfig.lua_ls.setup({
 		capabilities = capabilities,
-		on_attach = on_attach,
 		settings = { -- custom settings for lua
 			Lua = {
 				-- make the language server recognize "vim" global
@@ -37,14 +34,12 @@ local config = function()
 	-- json
 	lspconfig.jsonls.setup({
 		capabilities = capabilities,
-		on_attach = on_attach,
 		filetypes = { "json", "jsonc" },
 	})
 
 	-- python
 	lspconfig.pyright.setup({
 		capabilities = capabilities,
-		on_attach = on_attach,
 		settings = {
 			pyright = {
 				disableOrganizeImports = false,
@@ -60,7 +55,6 @@ local config = function()
 
 	-- typescript
 	lspconfig.tsserver.setup({
-		on_attach = on_attach,
 		capabilities = capabilities,
 		filetypes = {
 			"typescript",
@@ -71,21 +65,18 @@ local config = function()
 	-- bash
 	lspconfig.bashls.setup({
 		capabilities = capabilities,
-		on_attach = on_attach,
 		filetypes = { "sh" },
 	})
 
 	-- solidity
 	lspconfig.solidity.setup({
 		capabilities = capabilities,
-		on_attach = on_attach,
 		filetypes = { "solidity" },
 	})
 
 	-- html, typescriptreact, javascriptreact, css, sass, scss, less, svelte, vue
 	lspconfig.emmet_ls.setup({
 		capabilities = capabilities,
-		on_attach = on_attach,
 		filetypes = {
 			"html",
 			"typescriptreact",
@@ -103,7 +94,6 @@ local config = function()
 	-- docker
 	lspconfig.dockerls.setup({
 		capabilities = capabilities,
-		on_attach = on_attach,
 	})
 
 	local luacheck = require("efmls-configs.linters.luacheck")
