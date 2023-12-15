@@ -18,7 +18,6 @@ opt.ignorecase = true
 opt.hlsearch = false
 
 -- Appearance
-opt.relativenumber = true
 opt.termguicolors = true
 opt.colorcolumn = '80'
 opt.signcolumn = "yes"
@@ -27,6 +26,8 @@ opt.scrolloff = 10
 opt.completeopt = "menuone,noinsert,noselect"
 
 -- Behavior
+opt.number = true
+opt.relativenumber = true
 opt.hidden = true
 opt.errorbells = false
 opt.swapfile = false
@@ -41,5 +42,8 @@ opt.iskeyword:append("-")
 opt.mouse:append('a')
 opt.clipboard:append("unnamedplus")
 opt.modifiable = true
-opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+opt.guicursor = "n-v-c:block,i-ci-ve:ver25-Cursor,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 opt.encoding = "UTF-8"
+opt.virtualedit = "block"
+opt.inccommand = "split"
+
