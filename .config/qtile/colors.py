@@ -48,3 +48,20 @@ kanagawa = {
     'pink': "#FF5D62",
     'grey': "#727169",
 }
+
+catppuccin = {
+    'bg': "#1e1e2e",
+    'fg': "#cdd6f4",
+    'fg_gutter': "#585b70",
+    'black': "#11111b",
+    'red': "#f38ba8",
+    'green': "#a6e3a1",
+    'yellow': "#f9e2af",
+    'blue': "#89b4fa",
+    'magenta': "#cba6f7",
+    'cyan': "#74c7ec",
+    'white': "#f5e0dc",
+    'orange': "#fab387",
+    'pink': "#f5c2e7",
+    'grey': "#6c7086",
+}
